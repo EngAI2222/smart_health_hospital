@@ -45,8 +45,8 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
       (data) {
         if (!mounted) return;
         setState(() {
-      _tickets.clear();
-      _tickets.addAll(data);
+          _tickets.clear();
+          _tickets.addAll(data);
           _loading = false;
           _error = null;
         });
@@ -149,15 +149,20 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
               ElevatedButton.icon(
                 onPressed: _subscribeToTickets,
                 icon: const Icon(Icons.refresh),
-                label: Text('إعادة المحاولة',
-                    style: GoogleFonts.tajawal(fontSize: 15)),
+                label: Text(
+                  'إعادة المحاولة',
+                  style: GoogleFonts.tajawal(fontSize: 15),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kTeal,
                   foregroundColor: kWhite,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 14,
+                  ),
                 ),
               ),
             ],
@@ -176,7 +181,8 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
       },
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics()),
+          parent: BouncingScrollPhysics(),
+        ),
         slivers: [
           // ── Analytics Cards ──
           SliverToBoxAdapter(child: _buildAnalyticsRow()),
@@ -187,14 +193,10 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
           // ── Ticket List ──
           if (_loading && _tickets.isEmpty)
             const SliverFillRemaining(
-              child: Center(
-                child: CircularProgressIndicator(color: kTeal),
-              ),
+              child: Center(child: CircularProgressIndicator(color: kTeal)),
             )
           else if (_tickets.isEmpty)
-            SliverFillRemaining(
-              child: _buildEmptyState(),
-            )
+            SliverFillRemaining(child: _buildEmptyState())
           else
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -212,8 +214,14 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
 
   // ─────────────────── Analytics Cards ───────────────────
   Widget _buildAnalyticsRow() {
-    final criticalCount =
-        _tickets.where((t) => (t['urgency_level'] ?? '').toString().toLowerCase() == 'critical' || (t['urgency_level'] ?? '').toString().toLowerCase() == 'high').length;
+    final criticalCount = _tickets
+        .where(
+          (t) =>
+              (t['urgency_level'] ?? '').toString().toLowerCase() ==
+                  'critical' ||
+              (t['urgency_level'] ?? '').toString().toLowerCase() == 'high',
+        )
+        .length;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
@@ -221,27 +229,33 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
         height: 140,
         child: Row(
           children: [
-            Expanded(child: _buildAnalyticCard(
-              icon: FontAwesomeIcons.heartPulse,
-              label: 'الحالات الحرجة',
-              value: '$criticalCount',
-              color: kCriticalRed,
-              glow: true,
-            )),
+            Expanded(
+              child: _buildAnalyticCard(
+                icon: FontAwesomeIcons.heartPulse,
+                label: 'الحالات الحرجة',
+                value: '$criticalCount',
+                color: kCriticalRed,
+                glow: true,
+              ),
+            ),
             const SizedBox(width: 10),
-            Expanded(child: _buildAnalyticCard(
-              icon: FontAwesomeIcons.stethoscope,
-              label: 'القسم الأكثر ضغطاً',
-              value: 'أمراض الكلى',
-              color: kWarningOrange,
-            )),
+            Expanded(
+              child: _buildAnalyticCard(
+                icon: FontAwesomeIcons.stethoscope,
+                label: 'القسم الأكثر ضغطاً',
+                value: 'أمراض الكلى',
+                color: kWarningOrange,
+              ),
+            ),
             const SizedBox(width: 10),
-            Expanded(child: _buildAnalyticCard(
-              icon: FontAwesomeIcons.robot,
-              label: 'كفاءة الروبوت',
-              value: '98%',
-              color: kStableGreen,
-            )),
+            Expanded(
+              child: _buildAnalyticCard(
+                icon: FontAwesomeIcons.robot,
+                label: 'كفاءة الروبوت',
+                value: '98%',
+                color: kStableGreen,
+              ),
+            ),
           ],
         ),
       ),
@@ -346,7 +360,11 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.inbox, size: 56, color: kNavy.withOpacity(0.2)),
+            Icon(
+              FontAwesomeIcons.inbox,
+              size: 56,
+              color: kNavy.withOpacity(0.2),
+            ),
             const SizedBox(height: 16),
             Text(
               'لا توجد تذاكر حالياً',
@@ -372,7 +390,9 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
 
   // ─────────────────── Ticket Card ───────────────────
   Widget _buildTicketCard(Map<String, dynamic> ticket) {
-    final urgency = (ticket['urgency_level'] ?? 'normal').toString().toLowerCase();
+    final urgency = (ticket['urgency_level'] ?? 'normal')
+        .toString()
+        .toLowerCase();
     final isCritical = urgency == 'critical' || urgency == 'high';
     final isWarning = urgency == 'warning' || urgency == 'medium';
 
@@ -449,7 +469,9 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
                     child: Text(
                       name.toString()[0].toUpperCase(),
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700, color: kNavy),
+                        fontWeight: FontWeight.w700,
+                        color: kNavy,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -463,8 +485,7 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
                       ),
                     ),
                   ),
-                  if (isCritical)
-                    const _PulseDot(),
+                  if (isCritical) const _PulseDot(),
                 ],
               ),
               const SizedBox(height: 8),
@@ -472,8 +493,11 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(FontAwesomeIcons.stethoscope,
-                      size: 12, color: kNavy.withOpacity(0.4)),
+                  Icon(
+                    FontAwesomeIcons.stethoscope,
+                    size: 12,
+                    color: kNavy.withOpacity(0.4),
+                  ),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -493,8 +517,11 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
               if (createdAt.isNotEmpty)
                 Row(
                   children: [
-                    Icon(FontAwesomeIcons.clock,
-                        size: 10, color: kNavy.withOpacity(0.3)),
+                    Icon(
+                      FontAwesomeIcons.clock,
+                      size: 10,
+                      color: kNavy.withOpacity(0.3),
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       _formatTime(createdAt.toString()),
@@ -589,14 +616,10 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
       backgroundColor: Colors.transparent,
       builder: (_) => _PatientBottomSheet(
         ticket: ticket,
-        onRobotAssign: () => _updateTicketStatus(
-          ticket['id'],
-          'تم توجيه الروبوت للمستقبل',
-        ),
-        onStartTelemedicine: () => _updateTicketStatus(
-          ticket['id'],
-          'تواصل طبي مباشر',
-        ),
+        onRobotAssign: () =>
+            _updateTicketStatus(ticket['id'], 'تم توجيه الروبوت للمستقبل'),
+        onStartTelemedicine: () =>
+            _updateTicketStatus(ticket['id'], 'تواصل طبي مباشر'),
       ),
     );
   }
@@ -605,7 +628,8 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
     try {
       await _supabase
           .from('tickets')
-          .update({'status': newStatus}).eq('id', ticketId);
+          .update({'status': newStatus})
+          .eq('id', ticketId);
 
       if (!mounted) return;
       HapticFeedback.heavyImpact();
@@ -625,8 +649,9 @@ class _HospitalDashboardState extends State<HospitalDashboard> {
           ),
           backgroundColor: kTeal,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           duration: const Duration(seconds: 3),
         ),
       );
@@ -680,7 +705,11 @@ class _GlowingIconState extends State<_GlowingIcon>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _opacity,
-      builder: (_, __) => Icon(widget.icon, color: widget.color.withOpacity(_opacity.value), size: 26),
+      builder: (_, __) => Icon(
+        widget.icon,
+        color: widget.color.withOpacity(_opacity.value),
+        size: 26,
+      ),
     );
   }
 }
@@ -753,7 +782,9 @@ class _PatientBottomSheet extends StatelessWidget {
     final department = ticket['predicted_department'] ?? 'غير محدد';
     final summary = ticket['summary'] ?? 'لا يوجد ملخص طبي';
     final vitals = ticket['vitals'] ?? <String, dynamic>{};
-    final urgency = (ticket['urgency_level'] ?? 'normal').toString().toLowerCase();
+    final urgency = (ticket['urgency_level'] ?? 'normal')
+        .toString()
+        .toLowerCase();
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
@@ -892,11 +923,7 @@ class _PatientBottomSheet extends StatelessWidget {
       ),
       child: Text(
         content,
-        style: GoogleFonts.tajawal(
-          fontSize: 14,
-          color: kNavy,
-          height: 1.4,
-        ),
+        style: GoogleFonts.tajawal(fontSize: 14, color: kNavy, height: 1.4),
       ),
     );
   }
@@ -904,35 +931,37 @@ class _PatientBottomSheet extends StatelessWidget {
   Widget _buildVitalsRow(Map vitals) {
     final items = <Widget>[];
     vitals.forEach((key, value) {
-      items.add(Expanded(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: kBgGrey,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            children: [
-              Text(
-                '$value',
-                style: GoogleFonts.tajawal(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: kTeal,
+      items.add(
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: kBgGrey,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  '$value',
+                  style: GoogleFonts.tajawal(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: kTeal,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                key.toString(),
-                style: GoogleFonts.tajawal(
-                  fontSize: 10,
-                  color: kNavy.withOpacity(0.5),
+                const SizedBox(height: 2),
+                Text(
+                  key.toString(),
+                  style: GoogleFonts.tajawal(
+                    fontSize: 10,
+                    color: kNavy.withOpacity(0.5),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ));
+      );
       items.add(const SizedBox(width: 8));
     });
     return Row(children: items);
@@ -979,12 +1008,17 @@ class _PatientBottomSheet extends StatelessWidget {
       child: ElevatedButton.icon(
         onPressed: onTap,
         icon: Icon(icon, size: 20),
-        label: Text(label, style: GoogleFonts.tajawal(fontSize: 15, fontWeight: FontWeight.w600)),
+        label: Text(
+          label,
+          style: GoogleFonts.tajawal(fontSize: 15, fontWeight: FontWeight.w600),
+        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: kWhite,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           elevation: 2,
           shadowColor: color.withOpacity(0.3),
         ),
