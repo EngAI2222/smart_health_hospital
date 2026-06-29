@@ -1,0 +1,25 @@
+name: smart_health_hospital
+description: "Smart Health Hospital - Premium Healthcare Management System"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  supabase_flutter: ^2.0.0
+  google_fonts: ^5.1.0
+  font_awesome_flutter: ^10.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
